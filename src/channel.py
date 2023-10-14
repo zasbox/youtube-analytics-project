@@ -15,11 +15,35 @@ class Channel:
         response = self.get_info()
 
         self.title = response['items'][0]['snippet']['title']
-        self.description =response['items'][0]['snippet']['description']
+        self.description = response['items'][0]['snippet']['description']
         self.url = response['items'][0]['snippet']['thumbnails']['default']['url']
         self.subscriber_count = response['items'][0]['statistics']['subscriberCount']
-        self.video_count = response['items'][0]['statistics']['videoCount']
-        self.view_count = response['items'][0]['statistics']['viewCount']
+        self.video_count = int(response['items'][0]['statistics']['videoCount'])
+        self.view_count = int(response['items'][0]['statistics']['viewCount'])
+
+    def __str__(self):
+        return f"'{self.title} ({self.url})'"
+
+    def __add__(self, other):
+        return self.video_count + other.video_count
+
+    def __sub__(self, other):
+        return self.video_count - other.video_count
+
+    def __gt__(self, other):
+        return self.video_count > other.video_count
+
+    def __ge__(self, other):
+        return self.video_count >= other.video_count
+
+    def __lt__(self, other):
+        return self.video_count < other.video_count
+
+    def __le__(self, other):
+        return self.video_count <= other.video_count
+
+    def __eq__(self, other):
+        return self.video_count == other.video_count
 
     @classmethod
     def get_service(cls):
@@ -45,4 +69,3 @@ class Channel:
                         'view_count': self.view_count}
         with open(file_name, "w", encoding='utf8') as f:
             json.dump(channel_dict, f, ensure_ascii=False)
-
