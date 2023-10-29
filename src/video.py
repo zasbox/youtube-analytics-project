@@ -8,10 +8,16 @@ class Video:
                                                          ).execute()
 
         self.id = video_id
-        self.title = video_info['items'][0]['snippet']['title']
-        self.url = "https://youtu.be/" + str(video_id)
-        self.view_count = video_info['items'][0]['statistics']['commentCount']
-        self.like_count = video_info['items'][0]['statistics']['likeCount']
+        if len(video_info['items']):
+            self.title = video_info['items'][0]['snippet']['title']
+            self.url = "https://youtu.be/" + str(video_id)
+            self.view_count = video_info['items'][0]['statistics']['commentCount']
+            self.like_count = video_info['items'][0]['statistics']['likeCount']
+        else:
+            self.title = None
+            self.url = None
+            self.view_count = None
+            self.like_count = None
 
     def __str__(self):
         return self.title
